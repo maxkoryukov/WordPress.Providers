@@ -21,7 +21,7 @@ namespace WordPress.Web.Security
 
 
 			UserData ud = null;
-			using (DbManager db = new DbManager())
+			using (var db = new DbManager())
 			{
 				db.SetCommand(@"SELECT id, user_pass FROM wp_users WHERE user_login=@user_login AND user_status=0",
 					db.Parameter("user_login", name)
