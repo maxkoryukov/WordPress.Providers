@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Configuration;
+using System.Configuration.Provider;
 using System.Web.Security;
-using BLToolkit.Data;
 
-namespace WordPress.Web.Security
+using System.Data;
+using MySql.Data.MySqlClient;
+
+namespace WordPress.Providers.MySql
 {
 	public class WordpressMembershipProvider : MembershipProvider
 	{
-		class UserData
-		{
-			public int ID;
-			public string user_pass;
-		}
+		public string ConnectionStringName { get; private set; }
+		public string ConnectionString { get; private set; }
 
 		public override bool ValidateUser(string name, string password)
 		{
@@ -19,22 +20,38 @@ namespace WordPress.Web.Security
 			if (string.IsNullOrWhiteSpace(password))
 				return false;
 
+			string hash = null;
+			string id = null;
 
-			UserData ud = null;
-			using (var db = new DbManager())
+			using (DataTable dt = new DataTable())
 			{
-				db.SetCommand(@"SELECT id, user_pass FROM wp_users WHERE user_login=@user_login AND user_status=0",
-					db.Parameter("user_login", name)
-				);
+				using (var cn = new MySqlConnection(this.ConnectionString))
+				{
+					cn.Open();
+					using (var cmd = new MySqlCommand(
+						"SELECT id, user_pass FROM wp_users WHERE user_login=@user_login AND user_status=0",
+						cn))
+					{
+						cmd.Parameters.AddWithValue("user_login", name);
 
-				ud = db.ExecuteObject<UserData>();
+						new MySqlDataAdapter(cmd).Fill(dt);
+					}
+				}
 
+				if (dt.Rows.Count == 1)
+				{
+					hash = dt.Rows[0]["user_pass"].ToString();
+					id = dt.Rows[0]["id"].ToString();
+				}
 			}
 
-			if (null == ud)
+			if (string.IsNullOrWhiteSpace(id))
 				return false;
 
-			return CryptSharp.PhpassCrypter.CheckPassword(password, ud.user_pass);
+			if (string.IsNullOrWhiteSpace(hash))
+				return false;
+
+			return CryptSharp.PhpassCrypter.CheckPassword(password, hash);
 		}
 
 		public override string ApplicationName { get; set; }
@@ -45,6 +62,25 @@ namespace WordPress.Web.Security
 			{
 				return base.Description;
 			}
+		}
+		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
+		{
+			base.Initialize(name, config);
+
+			if (null == config["connectionStringName"])
+				throw new ArgumentNullException("connectionStringName");
+			this.ConnectionStringName = config["connectionStringName"];
+
+			ConnectionStringSettings ConnectionStringSettings =
+				ConfigurationManager.ConnectionStrings[this.ConnectionStringName];
+
+			if (ConnectionStringSettings == null)
+				throw new ProviderException("Connection string was not found in config file.");
+			
+			if (string.IsNullOrWhiteSpace(ConnectionStringSettings.ConnectionString))
+				throw new ProviderException("Connection string cannot be empty.");
+
+			this.ConnectionString = ConnectionStringSettings.ConnectionString;
 		}
 
 		public override bool EnablePasswordReset
@@ -138,10 +174,6 @@ namespace WordPress.Web.Security
 		public override string GetUserNameByEmail(string email)
 		{
 			throw new NotImplementedException();
-		}
-		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
-		{
-			base.Initialize(name, config);
 		}
 		public override string Name
 		{

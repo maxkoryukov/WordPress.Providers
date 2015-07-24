@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Web.Security;
-using BLToolkit.Data;
 
-namespace WordPress.Web.Security
+namespace WordPress.Providers.MySql
 {
 	public class WordpressRoleProvider : RoleProvider
 	{

@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{396F3832-7A79-4526-8754-E024F71ADDCA}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>WordPress</RootNamespace>
-    <AssemblyName>WordPress.Providers</AssemblyName>
+    <RootNamespace>WordPress.Providers</RootNamespace>
+    <AssemblyName>WordPress.Providers.MySql</AssemblyName>
     <SynchReleaseVersion>false</SynchReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -27,16 +27,17 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="BLToolkit.4">
-      <HintPath>..\..\ref\bltoolkit\4.1.0\BLToolkit.4.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="CryptSharp">
-      <HintPath>..\..\ref\dot.net\CryptSharp\2.1.0\CryptSharp.dll</HintPath>
+      <HintPath>..\..\..\ref\CryptSharp.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\ref\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

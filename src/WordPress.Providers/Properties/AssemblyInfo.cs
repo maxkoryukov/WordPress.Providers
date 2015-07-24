@@ -4,11 +4,11 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes.
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("WordPress.Providers")]
-[assembly: AssemblyDescription(".NET Providers over WordPress")]
+[assembly: AssemblyTitle("WordPress.Providers.MySql")]
+[assembly: AssemblyDescription(".NET Providers over the MySql Of WordPress's site")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Max Koryukov")]
-[assembly: AssemblyProduct("WordPress.Providers")]
+[assembly: AssemblyProduct("WordPress.Providers.MySql")]
 [assembly: AssemblyCopyright("© 2015 Max Koryukov")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
