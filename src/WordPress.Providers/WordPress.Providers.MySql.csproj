@@ -27,17 +27,17 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CryptSharp">
-      <HintPath>..\..\..\ref\CryptSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\..\ref\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.XML" />
+    <Reference Include="System.Xml" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\ref\mysql-connector\6.9.5\mysql-connector-net-6.9.5-noinstall\v4.5\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="CryptSharp">
+      <HintPath>..\..\..\ref\dot.net\CryptSharp\2.1.0\CryptSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

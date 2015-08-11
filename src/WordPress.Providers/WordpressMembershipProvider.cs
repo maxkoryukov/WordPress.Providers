@@ -25,6 +25,7 @@ namespace WordPress.Providers.MySql
 
 			using (DataTable dt = new DataTable())
 			{
+				dt.TableName = "wp_users";
 				using (var cn = new MySqlConnection(this.ConnectionString))
 				{
 					cn.Open();
