@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{396F3832-7A79-4526-8754-E024F71ADDCA}</ProjectGuid>
+    <ProjectGuid>{95907775-4612-4E90-85A1-A0711846B2FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>WordPress.Providers</RootNamespace>
-    <AssemblyName>WordPress.Providers.MySql</AssemblyName>
+    <AssemblyName>WordPress.Providers</AssemblyName>
     <SynchReleaseVersion>false</SynchReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
