@@ -40,6 +40,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MySql\InternalConfigurationHelper.cs" />
+    <Compile Include="MySql\TableNameUtility.cs" />
     <Compile Include="MySql\WordpressMembershipProvider.cs" />
     <Compile Include="MySql\WordpressRoleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,12 +1,28 @@
 ﻿using System;
+using System.Configuration;
+using System.Configuration.Provider;
 using System.Web.Security;
 
 namespace WordPress.Providers.MySql
 {
 	public class WordpressRoleProvider : RoleProvider
 	{
-		public override string ApplicationName{get;set;}
+		internal protected TableNameUtility N;
+		public string ConnectionStringName { get; private set; }
+		public string ConnectionString { get; private set; }
+		public override string ApplicationName { get; set;  }
+		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
+		{
+			base.Initialize(name, config);
 
+			var c = InternalConfigurationHelper.Initialize(config);
+
+			this.ConnectionString = c.ConnectionString;
+			this.ConnectionStringName = c.ConnectionStringName;
+			this.N = c.N;
+		}
+
+		#region Dummy Implementation
 		public override bool IsUserInRole(string username, string rolename)
 		{
 			if (null != rolename)
@@ -22,6 +38,7 @@ namespace WordPress.Providers.MySql
 		{
 			return new string[] {"Administrator"};
 		}
+		#endregion
 
 		#region Not Implemented
 

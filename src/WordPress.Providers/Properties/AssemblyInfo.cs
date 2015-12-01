@@ -5,7 +5,11 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle("WordPress.Providers")]
-[assembly: AssemblyDescription(".NET Providers over the MySql Of WordPress's site")]
+[assembly: AssemblyDescription
+	(
+@".NET Providers over the MySql Of WordPress's site
+https://github.com/maxkoryukov/WordPress.Providers"
+	)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Max Koryukov")]
 [assembly: AssemblyProduct("WordPress.Providers")]
@@ -13,9 +17,6 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
-// The form "{Major}.{Minor}.*" will automatically update the build and revision,
-// and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
 [assembly: AssemblyVersion("0.0.1.*")]
 

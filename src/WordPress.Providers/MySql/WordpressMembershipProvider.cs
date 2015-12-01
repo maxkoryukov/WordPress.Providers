@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Configuration;
-using System.Configuration.Provider;
 using System.Web.Security;
 
 using System.Data;
@@ -10,8 +8,21 @@ namespace WordPress.Providers.MySql
 {
 	public class WordpressMembershipProvider : MembershipProvider
 	{
+		protected TableNameUtility N;
 		public string ConnectionStringName { get; private set; }
 		public string ConnectionString { get; private set; }
+		public override string ApplicationName { get; set; }
+
+		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
+		{
+			base.Initialize(name, config);
+
+			var c = InternalConfigurationHelper.Initialize(config);
+
+			this.ConnectionString = c.ConnectionString;
+			this.ConnectionStringName = c.ConnectionStringName;
+			this.N = c.N;
+		}
 
 		public override bool ValidateUser(string name, string password)
 		{
@@ -25,12 +36,13 @@ namespace WordPress.Providers.MySql
 
 			using (DataTable dt = new DataTable())
 			{
-				dt.TableName = "wp_users";
+				dt.TableName = this.N.TableUser;
 				using (var cn = new MySqlConnection(this.ConnectionString))
 				{
 					cn.Open();
 					using (var cmd = new MySqlCommand(
-						"SELECT id, user_pass FROM wp_users WHERE user_login=@user_login AND user_status=0",
+						"SELECT id, user_pass FROM {wp_users} WHERE user_login=@user_login AND user_status=0"
+							.Replace("{wp_users}", this.N.TableUser),
 						cn))
 					{
 						cmd.Parameters.AddWithValue("user_login", name);
@@ -55,35 +67,8 @@ namespace WordPress.Providers.MySql
 			return CryptSharp.PhpassCrypter.CheckPassword(password, hash);
 		}
 
-		public override string ApplicationName { get; set; }
-
-		public override string Description
-		{
-			get
-			{
-				return base.Description;
-			}
-		}
-		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
-		{
-			base.Initialize(name, config);
-
-			if (null == config["connectionStringName"])
-				throw new ArgumentNullException("connectionStringName");
-			this.ConnectionStringName = config["connectionStringName"];
-
-			ConnectionStringSettings ConnectionStringSettings =
-				ConfigurationManager.ConnectionStrings[this.ConnectionStringName];
-
-			if (ConnectionStringSettings == null)
-				throw new ProviderException("Connection string was not found in config file.");
-			
-			if (string.IsNullOrWhiteSpace(ConnectionStringSettings.ConnectionString))
-				throw new ProviderException("Connection string cannot be empty.");
-
-			this.ConnectionString = ConnectionStringSettings.ConnectionString;
-		}
-
+		#region Dummy Values
+		
 		public override bool EnablePasswordReset
 		{ 
 			get { return false; } 
@@ -112,6 +97,8 @@ namespace WordPress.Providers.MySql
 		{
 			get { return false; } 
 		}
+		#endregion
+
 		#region NotImplemented
 		public override bool ChangePassword(string name, string oldPwd, string newPwd)
 		{
