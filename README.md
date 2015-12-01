@@ -2,7 +2,7 @@
 
 *This project is still private prototype*
 
-Provides access to Wordpress database through .NET Provider's system: MembershipProvider, RoleProvider and others
+Library provides access to autorization using WordPress database through common .NET Provider's: MembershipProvider, RoleProvider, ???
 
 ## MySql Way
 
